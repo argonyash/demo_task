@@ -68,7 +68,7 @@ class HomeView extends GetWidget<HomeController> {
                     child: Stepper(
                       steps: [
                         Step(
-                          title: Text('Account'),
+                          title: Text('Business Information'),
                           content: Container(
                             //width: double.infinity,
                             child: Column(
@@ -102,12 +102,11 @@ class HomeView extends GetWidget<HomeController> {
                                   ],
                                 ),
                                 basicDetails(),
-                                Space.height(30),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                // Space.height(30),
+                                Wrap(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     storeGallery(context),
-                                    Spacer(),
                                     deliveryOption(),
                                   ],
                                 ),
@@ -121,17 +120,17 @@ class HomeView extends GetWidget<HomeController> {
                               : StepState.disabled,
                         ),
                         Step(
-                          title: new Text('Address'),
+                          title: new Text('Merchant Information'),
                           content: Column(
                             children: <Widget>[
-                              TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'Home Address'),
-                              ),
-                              TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'Postcode'),
-                              ),
+                              // TextFormField(
+                              //   decoration:
+                              //       InputDecoration(labelText: 'Home Address'),
+                              // ),
+                              // TextFormField(
+                              //   decoration:
+                              //       InputDecoration(labelText: 'Postcode'),
+                              // ),
                             ],
                           ),
                           isActive: controller.currentStep.value >= 0,
@@ -140,17 +139,32 @@ class HomeView extends GetWidget<HomeController> {
                               : StepState.disabled,
                         ),
                         Step(
-                          title: new Text('Mobile Number'),
+                          title: new Text('Subscription Plan & Billing'),
                           content: Column(
-                            children: <Widget>[
-                              TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'Mobile Number'),
-                              ),
-                            ],
+                            children: <Widget>[],
                           ),
                           isActive: controller.currentStep.value >= 0,
                           state: controller.currentStep.value >= 2
+                              ? StepState.complete
+                              : StepState.disabled,
+                        ),
+                        Step(
+                          title: new Text('Store Information'),
+                          content: Column(
+                            children: <Widget>[],
+                          ),
+                          isActive: controller.currentStep.value >= 0,
+                          state: controller.currentStep.value >= 3
+                              ? StepState.complete
+                              : StepState.disabled,
+                        ),
+                        Step(
+                          title: new Text('Verification'),
+                          content: Column(
+                            children: <Widget>[],
+                          ),
+                          isActive: controller.currentStep.value >= 0,
+                          state: controller.currentStep.value >= 4
                               ? StepState.complete
                               : StepState.disabled,
                         ),
@@ -163,7 +177,7 @@ class HomeView extends GetWidget<HomeController> {
                       },
                       elevation: 0,
                       onStepContinue: () {
-                        controller.currentStep < 2
+                        controller.currentStep < 4
                             ? controller.currentStep.value += 1
                             : null;
                       },
@@ -268,135 +282,138 @@ class HomeView extends GetWidget<HomeController> {
   }
 
   Widget basicDetails() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Basic Store/Business information",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: MySize.size20,
+    return Padding(
+      padding: EdgeInsets.only(top: MySize.size30!),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Basic Store/Business information",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: MySize.size20,
+            ),
           ),
-        ),
-        Spacing.height(13),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Checkbox(
-              value: controller.isChecked.value,
-              onChanged: (value) {
-                controller.isChecked.toggle();
-              },
-            ),
-            Spacing.width(5),
-            Text(
-              "Same as Business Address",
-              style: TextStyle(
-                color: appTheme.textGrayColor,
-                fontWeight: FontWeight.normal,
-                fontSize: MySize.size18,
+          Spacing.height(13),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Checkbox(
+                value: controller.isChecked.value,
+                onChanged: (value) {
+                  controller.isChecked.toggle();
+                },
               ),
-            ),
-          ],
-        ),
-        Spacing.height(33),
-        Wrap(
-          children: [
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter Registered Business Address",
-                  labelText: "Registered Business Address"),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter Office No",
-                  labelText: "Office No, Building, Lane etc (optional) "),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child:
-                  getTextFormField(hintText: "Enter City", labelText: "City"),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getStateDropDown(),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  textEditingController: controller.selectCountry.value,
-                  suffixIcon: Icon(Icons.arrow_drop_down),
-                  labelText: "Country",
-                  isReadOnly: true,
-                  enable: false,
-                  ontap: () {
-                    print("test");
-                  }),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter PIN code ", labelText: "Store PIN code"),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter Store License Number ",
-                  labelText: "Store License Number "),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter GST Number", labelText: "GST Number"),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child:
-                  getTextFormField(hintText: "Enter Email", labelText: "Email"),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter Telephone Number",
-                  labelText: "Telephone Number"),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-            Spacing.width(28),
-            Container(
-              width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  hintText: "Enter Store Map Location",
-                  labelText: "Store Map Location",
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.all(MySize.size15!),
-                    child: SvgPicture.asset("assets/pin.svg"),
-                  )),
-              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
-            ),
-          ],
-        )
-      ],
+              Spacing.width(5),
+              Text(
+                "Same as Business Address",
+                style: TextStyle(
+                  color: appTheme.textGrayColor,
+                  fontWeight: FontWeight.normal,
+                  fontSize: MySize.size18,
+                ),
+              ),
+            ],
+          ),
+          Spacing.height(33),
+          Wrap(
+            children: [
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter Registered Business Address",
+                    labelText: "Registered Business Address"),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter Office No",
+                    labelText: "Office No, Building, Lane etc (optional) "),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child:
+                    getTextFormField(hintText: "Enter City", labelText: "City"),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getStateDropDown(),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    textEditingController: controller.selectCountry.value,
+                    suffixIcon: Icon(Icons.arrow_drop_down),
+                    labelText: "Country",
+                    isReadOnly: true,
+                    enable: false,
+                    ontap: () {
+                      print("test");
+                    }),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter PIN code ", labelText: "Store PIN code"),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter Store License Number ",
+                    labelText: "Store License Number "),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter GST Number", labelText: "GST Number"),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter Email", labelText: "Email"),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter Telephone Number",
+                    labelText: "Telephone Number"),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+              Spacing.width(28),
+              Container(
+                width: MySize.getScaledSizeWidth(498),
+                child: getTextFormField(
+                    hintText: "Enter Store Map Location",
+                    labelText: "Store Map Location",
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.all(MySize.size15!),
+                      child: SvgPicture.asset("assets/pin.svg"),
+                    )),
+                margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -428,129 +445,132 @@ class HomeView extends GetWidget<HomeController> {
 
   Widget storeGallery(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(0)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Store Gallery",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: MySize.size20,
-                    ),
-                  ),
-                  Spacing.height(20),
-                  Wrap(
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          final xFile = await controller.imagePicker
-                              .pickImage(source: ImageSource.gallery);
-                          if (xFile != null) {
-                            Get.back();
-                            await _cropImage(xFile.path, context);
-                          }
-                        },
-                        child: SvgPicture.asset(
-                          "assets/upload.svg",
-                        ),
+      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(30)),
+      child: Container(
+        width: MySize.getScaledSizeWidth(520),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Wrap(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Store Gallery",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: MySize.size20,
                       ),
-                      Spacing.width(10),
-                      if (!isNullEmptyOrFalse(controller.imageData))
-                        for (int i = 0; i < controller.imageData.length; i++)
-                          // for (int i = 0; i < 7; i++)
-                          Padding(
-                            padding: EdgeInsets.only(
-                                right: MySize.getScaledSizeWidth(10)),
-                            child: Container(
-                              height: MySize.getScaledSizeHeight(110),
-                              width: MySize.getScaledSizeWidth(110),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                    child: Image(
-                                      image: NetworkImage(
-                                          controller.imageData[0].path),
-                                      width: MySize.getScaledSizeWidth(100),
-                                      height: MySize.getScaledSizeHeight(100),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return SimpleDialog(
-                                            insetPadding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MySize.getScaledSizeWidth(
-                                                        20)),
-                                            children: [
-                                              Container(
-                                                child: PhotoView(
-                                                  imageProvider: NetworkImage(
-                                                      controller
-                                                          .imageData[0].path),
-                                                  initialScale:
-                                                      PhotoViewComputedScale
-                                                              .contained *
-                                                          1,
-                                                  heroAttributes:
-                                                      PhotoViewHeroAttributes(
-                                                          tag: controller
-                                                              .imageData[0]
-                                                              .path),
-                                                  enableRotation: true,
-                                                ),
-                                                height:
-                                                    MySize.getScaledSizeHeight(
-                                                        600),
-                                                width:
-                                                    MySize.getScaledSizeHeight(
-                                                        600),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                  Positioned(
-                                    child: InkWell(
+                    ),
+                    Spacing.height(20),
+                    Wrap(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            final xFile = await controller.imagePicker
+                                .pickImage(source: ImageSource.gallery);
+                            if (xFile != null) {
+                              Get.back();
+                              await _cropImage(xFile.path, context);
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            "assets/upload.svg",
+                          ),
+                        ),
+                        Spacing.width(10),
+                        if (!isNullEmptyOrFalse(controller.imageData))
+                          for (int i = 0; i < controller.imageData.length; i++)
+                            // for (int i = 0; i < 7; i++)
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  right: MySize.getScaledSizeWidth(10)),
+                              child: Container(
+                                height: MySize.getScaledSizeHeight(110),
+                                width: MySize.getScaledSizeWidth(110),
+                                child: Stack(
+                                  children: [
+                                    InkWell(
+                                      child: Image(
+                                        image: NetworkImage(
+                                            controller.imageData[0].path),
+                                        width: MySize.getScaledSizeWidth(100),
+                                        height: MySize.getScaledSizeHeight(100),
+                                        fit: BoxFit.cover,
+                                      ),
                                       onTap: () {
-                                        controller.imageData.removeAt(i);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return SimpleDialog(
+                                              insetPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: MySize
+                                                          .getScaledSizeWidth(
+                                                              20)),
+                                              children: [
+                                                Container(
+                                                  child: PhotoView(
+                                                    imageProvider: NetworkImage(
+                                                        controller
+                                                            .imageData[0].path),
+                                                    initialScale:
+                                                        PhotoViewComputedScale
+                                                                .contained *
+                                                            1,
+                                                    heroAttributes:
+                                                        PhotoViewHeroAttributes(
+                                                            tag: controller
+                                                                .imageData[0]
+                                                                .path),
+                                                    enableRotation: true,
+                                                  ),
+                                                  height: MySize
+                                                      .getScaledSizeHeight(600),
+                                                  width: MySize
+                                                      .getScaledSizeHeight(600),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
-                                      child: Container(
-                                        height: MySize.getScaledSizeHeight(110),
-                                        width: MySize.getScaledSizeWidth(110),
-                                        child: Image(
-                                          image:
-                                              AssetImage("assets/cancel.png"),
+                                    ),
+                                    Positioned(
+                                      child: InkWell(
+                                        onTap: () {
+                                          controller.imageData.removeAt(i);
+                                        },
+                                        child: Container(
+                                          height:
+                                              MySize.getScaledSizeHeight(110),
+                                          width: MySize.getScaledSizeWidth(110),
+                                          child: Image(
+                                            image:
+                                                AssetImage("assets/cancel.png"),
+                                          ),
                                         ),
                                       ),
+                                      width: MySize.getScaledSizeWidth(40),
+                                      height: MySize.getScaledSizeHeight(40),
+                                      right: -9,
+                                      top: -9,
                                     ),
-                                    width: MySize.getScaledSizeWidth(40),
-                                    height: MySize.getScaledSizeHeight(40),
-                                    right: -9,
-                                    top: -9,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                    ],
-                  )
-                ],
-              ),
-            ],
-          ),
-          Spacing.height(13),
-        ],
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Spacing.height(13),
+          ],
+        ),
       ),
     );
   }
@@ -561,6 +581,10 @@ class HomeView extends GetWidget<HomeController> {
       sourcePath: filePath,
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
       ],
       uiSettings: [
         WebUiSettings(
@@ -568,11 +592,11 @@ class HomeView extends GetWidget<HomeController> {
           presentStyle: CropperPresentStyle.dialog,
           boundary: Boundary(
             width: MySize.getScaledSizeWidth(480).toInt(),
-            height: MySize.getScaledSizeWidth(480).toInt(),
+            height: MySize.getScaledSizeHeight(480).toInt(),
           ),
           viewPort: ViewPort(
               width: MySize.getScaledSizeWidth(480).toInt(),
-              height: MySize.getScaledSizeWidth(480).toInt(),
+              height: MySize.getScaledSizeHeight(480).toInt(),
               type: 'square'),
           enableExif: true,
           enableZoom: true,
@@ -587,147 +611,154 @@ class HomeView extends GetWidget<HomeController> {
   }
 
   deliveryOption() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Delivery Options",
-          style: TextStyle(
-              fontSize: MySize.getScaledSizeHeight(20),
-              fontWeight: FontWeight.bold),
-        ),
-        Space.height(10),
-        Row(
-          children: [
-            Checkbox(
-                value: controller.isStorePickUp.value,
-                // checkColor: Color(0xff585B71),
-                // activeColor: Colors.white,
-                // side: BorderSide(
-                //   color: Color(0xff585B71),
-                // ),
-                // focusColor: Colors.blue,
-                shape: RoundedRectangleBorder(
+    return Container(
+      width: MySize.getScaledSizeWidth(520),
+      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(30)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Delivery Options",
+            style: TextStyle(
+                fontSize: MySize.getScaledSizeHeight(20),
+                fontWeight: FontWeight.bold),
+          ),
+          Space.height(10),
+          Row(
+            children: [
+              Checkbox(
+                  value: controller.isStorePickUp.value,
+                  // checkColor: Color(0xff585B71),
+                  // activeColor: Colors.white,
                   // side: BorderSide(
                   //   color: Color(0xff585B71),
                   // ),
-                  borderRadius:
-                      BorderRadius.circular(MySize.getScaledSizeHeight(3)),
-                ),
-                onChanged: (val) {
-                  controller.isStorePickUp.value = val!;
-                }),
-            Text(
-              "Store Pick-up",
-              style: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: MySize.getScaledSizeHeight(16)),
-            ),
-            Checkbox(
-                value: controller.isHomeDelivery.value,
-                onChanged: (val) {
-                  controller.isHomeDelivery.value = val!;
-                }),
-            Text(
-              "Home Delivery",
-              style: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: MySize.getScaledSizeHeight(16)),
-            ),
-          ],
-        ),
-        Space.height(21),
-        Row(
-          children: [
-            Container(
-              width: MySize.getScaledSizeWidth(157),
-              child: getTextFormField(
-                  labelText: "Area Coverage",
-                  textEditingController: controller.coverageController.value),
-            ),
-            Space.width(10),
-            Container(
-              width: MySize.getScaledSizeWidth(157),
-              child: getTextFormField(
-                  labelText: "Delivery Speed",
-                  textEditingController:
-                      controller.deliverySpeedController.value),
-            ),
-            Space.width(10),
-            PopupMenuButton(
-                offset: Offset(0, MySize.getScaledSizeHeight(50)),
-                child: Container(
-                  width: MySize.getScaledSizeWidth(157),
-                  child: getTextFormField(
-                      textEditingController:
-                          controller.deliverySpeedPopUpController.value,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                      labelText: "Delivery Speed",
-                      isReadOnly: true,
-                      enable: false,
-                      ontap: () {
-                        print("test");
-                      }),
-                ),
-                itemBuilder: (context) {
-                  return List.generate(
-                      0,
-                      (index) => PopupMenuItem(
-                            child: Text("Category ${index + 1}"),
-                          ));
-                }),
-          ],
-        ),
-      ],
+                  // focusColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    // side: BorderSide(
+                    //   color: Color(0xff585B71),
+                    // ),
+                    borderRadius:
+                        BorderRadius.circular(MySize.getScaledSizeHeight(3)),
+                  ),
+                  onChanged: (val) {
+                    controller.isStorePickUp.value = val!;
+                  }),
+              Text(
+                "Store Pick-up",
+                style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: MySize.getScaledSizeHeight(16)),
+              ),
+              Checkbox(
+                  value: controller.isHomeDelivery.value,
+                  onChanged: (val) {
+                    controller.isHomeDelivery.value = val!;
+                  }),
+              Text(
+                "Home Delivery",
+                style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: MySize.getScaledSizeHeight(16)),
+              ),
+            ],
+          ),
+          Space.height(21),
+          Row(
+            children: [
+              Container(
+                width: MySize.getScaledSizeWidth(157),
+                child: getTextFormField(
+                    labelText: "Area Coverage",
+                    textEditingController: controller.coverageController.value),
+              ),
+              Space.width(10),
+              Container(
+                width: MySize.getScaledSizeWidth(157),
+                child: getTextFormField(
+                    labelText: "Delivery Speed",
+                    textEditingController:
+                        controller.deliverySpeedController.value),
+              ),
+              Space.width(10),
+              PopupMenuButton(
+                  offset: Offset(0, MySize.getScaledSizeHeight(50)),
+                  child: Container(
+                    width: MySize.getScaledSizeWidth(157),
+                    child: getTextFormField(
+                        textEditingController:
+                            controller.deliverySpeedPopUpController.value,
+                        suffixIcon: Icon(Icons.arrow_drop_down),
+                        labelText: "Delivery Speed",
+                        isReadOnly: true,
+                        enable: false,
+                        ontap: () {
+                          print("test");
+                        }),
+                  ),
+                  itemBuilder: (context) {
+                    return List.generate(
+                        0,
+                        (index) => PopupMenuItem(
+                              child: Text("Category ${index + 1}"),
+                            ));
+                  }),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   gertStoreHours() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Store Hours",
-          style: TextStyle(
-              fontSize: MySize.getScaledSizeHeight(20),
-              fontWeight: FontWeight.bold),
-        ),
-        Space.height(30),
-        Row(
-          children: [
-            PopupMenuButton(
-                offset: Offset(0, MySize.getScaledSizeHeight(50)),
-                child: Container(
-                  width: MySize.getScaledSizeWidth(249),
-                  child: getTextFormField(
-                      textEditingController:
-                          controller.storeHoursController.value,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                      labelText: "Work Days",
-                      isReadOnly: true,
-                      enable: false,
-                      ontap: () {
-                        print("test");
-                      }),
-                ),
-                itemBuilder: (context) {
-                  return List.generate(
-                      0,
-                      (index) => PopupMenuItem(
-                            child: Text("Category ${index + 1}"),
-                          ));
-                }),
-            Space.width(10),
-            Container(
-              width: MySize.getScaledSizeWidth(249),
-              child: getTextFormField(
-                  labelText: "Opening Time",
-                  textEditingController:
-                      controller.openingTimeController.value),
-            ),
-          ],
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Store Hours",
+            style: TextStyle(
+                fontSize: MySize.getScaledSizeHeight(20),
+                fontWeight: FontWeight.bold),
+          ),
+          Space.height(30),
+          Row(
+            children: [
+              PopupMenuButton(
+                  offset: Offset(0, MySize.getScaledSizeHeight(50)),
+                  child: Container(
+                    width: MySize.getScaledSizeWidth(249),
+                    child: getTextFormField(
+                        textEditingController:
+                            controller.storeHoursController.value,
+                        suffixIcon: Icon(Icons.arrow_drop_down),
+                        labelText: "Work Days",
+                        isReadOnly: true,
+                        enable: false,
+                        ontap: () {
+                          print("test");
+                        }),
+                  ),
+                  itemBuilder: (context) {
+                    return List.generate(
+                        0,
+                        (index) => PopupMenuItem(
+                              child: Text("Category ${index + 1}"),
+                            ));
+                  }),
+              Space.width(10),
+              Container(
+                width: MySize.getScaledSizeWidth(249),
+                child: getTextFormField(
+                    labelText: "Opening Time",
+                    textEditingController:
+                        controller.openingTimeController.value),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

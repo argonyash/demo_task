@@ -102,6 +102,10 @@ TextFormField getTextFormField(
         borderRadius: BorderRadius.circular(
             (borderRadius == null) ? MySize.size10! : borderRadius),
       ),
+      disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: appTheme.borderColor),
+          borderRadius: BorderRadius.circular(
+              (borderRadius == null) ? MySize.size10! : borderRadius)),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(
             (borderRadius == null) ? MySize.size10! : borderRadius),
