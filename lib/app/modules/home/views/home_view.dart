@@ -355,6 +355,8 @@ class HomeView extends GetWidget<HomeController> {
           ),
           Spacing.height(33),
           Wrap(
+            spacing: MySize.getScaledSizeWidth(28),
+            runSpacing: MySize.getScaledSizeHeight(5),
             children: [
               Container(
                 width: MySize.getScaledSizeWidth(480),
@@ -363,7 +365,7 @@ class HomeView extends GetWidget<HomeController> {
                     labelText: "Registered Business Address"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Space.width(28),
+
               Container(
                 width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
@@ -378,7 +380,7 @@ class HomeView extends GetWidget<HomeController> {
                     getTextFormField(hintText: "Enter City", labelText: "City"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Space.width(28),
+
               Container(
                 width: MySize.getScaledSizeWidth(480),
                 child: getStateDropDown(),
@@ -398,7 +400,7 @@ class HomeView extends GetWidget<HomeController> {
                     }),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Space.width(28),
+
               Container(
                 width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
@@ -413,7 +415,7 @@ class HomeView extends GetWidget<HomeController> {
                     labelText: "Store License Number "),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Space.width(28),
+
               Container(
                 width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
@@ -427,7 +429,7 @@ class HomeView extends GetWidget<HomeController> {
                     hintText: "Enter Email", labelText: "Email"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Space.width(28),
+
               Container(
                 width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
@@ -721,6 +723,7 @@ class HomeView extends GetWidget<HomeController> {
                 width: MySize.getScaledSizeWidth(157),
                 child: getTextFormField(
                     labelText: "Delivery Speed",
+                    focusNode: controller.f1,
                     textEditingController:
                         controller.deliverySpeedController.value),
               ),

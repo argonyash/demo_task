@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   //TODO: Implement HomeController
   RxInt currentStep = 0.obs;
   late TextEditingController username;
+  final FocusNode f1 = FocusNode();
   Rx<TextEditingController> selectState = TextEditingController().obs;
   Rx<TextEditingController> selectCountry = TextEditingController().obs;
   Rx<TextEditingController> selectStateController = TextEditingController().obs;

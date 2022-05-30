@@ -80,11 +80,13 @@ TextFormField getTextFormField(
     bool enable = true,
     String? hintText,
     String? labelText,
+    FocusNode? focusNode,
     int? maxLine = 1}) {
   return TextFormField(
     controller: textEditingController,
     cursorColor: appTheme.primaryTheme,
     readOnly: isReadOnly,
+    focusNode: focusNode,
     obscureText: textVisible,
     enabled: enable,
     inputFormatters: formator,
@@ -98,16 +100,20 @@ TextFormField getTextFormField(
       labelText: labelText,
       fillColor: appTheme.fillColor,
       labelStyle: TextStyle(
-        fontFamily: "Poppins",
-      ),
+          fontFamily: "Poppins",
+          color: (isNullEmptyOrFalse(focusNode)
+              ? appTheme.primaryTheme
+              : (focusNode!.hasFocus)
+                  ? appTheme.primaryTheme
+                  : appTheme.primaryTheme)),
 
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: appTheme.borderColor),
+        borderSide: BorderSide(color: appTheme.primaryTheme),
         borderRadius: BorderRadius.circular(
             (borderRadius == null) ? MySize.size10! : borderRadius),
       ),
       disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: appTheme.borderColor),
+          borderSide: BorderSide(color: appTheme.primaryTheme),
           borderRadius: BorderRadius.circular(
               (borderRadius == null) ? MySize.size10! : borderRadius)),
       focusedBorder: OutlineInputBorder(
@@ -127,9 +133,14 @@ TextFormField getTextFormField(
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       suffix: suffix,
-      floatingLabelStyle:
-          TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
-      helperStyle: TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
+      floatingLabelStyle: TextStyle(
+          fontSize: MySize.size16!,
+          fontFamily: "Poppins",
+          color: (appTheme.primaryTheme)),
+      helperStyle: TextStyle(
+        fontSize: MySize.size16!,
+        fontFamily: "Poppins",
+      ),
       hintText: hintText,
       hintStyle: TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
     ),
