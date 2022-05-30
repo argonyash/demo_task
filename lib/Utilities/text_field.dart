@@ -97,6 +97,10 @@ TextFormField getTextFormField(
       // helperText: "test",
       labelText: labelText,
       fillColor: appTheme.fillColor,
+      labelStyle: TextStyle(
+        fontFamily: "Poppins",
+      ),
+
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: appTheme.borderColor),
         borderRadius: BorderRadius.circular(
@@ -123,10 +127,12 @@ TextFormField getTextFormField(
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       suffix: suffix,
+      floatingLabelStyle:
+          TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
+      helperStyle: TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
       hintText: hintText,
-      hintStyle: TextStyle(
-        fontSize: MySize.size16!,
-      ),
+      hintStyle: TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
     ),
+    style: TextStyle(fontSize: MySize.size16!, fontFamily: "Poppins"),
   );
 }

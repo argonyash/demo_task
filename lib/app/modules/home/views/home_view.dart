@@ -29,164 +29,198 @@ class HomeView extends GetWidget<HomeController> {
                 padding: EdgeInsets.only(
                   top: MySize.size15!,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/logo.svg",
-                      height: MySize.size47,
-                      width: MySize.size147,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Having Trouble? ',
-                        style: TextStyle(
-                          color: appTheme.textGrayColor,
-                        ),
-                        // style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Get Help ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: appTheme.primaryTheme)),
-                        ],
+                child: Container(
+                  width: MySize.getScaledSizeWidth(990),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/logo.svg",
+                        height: MySize.size47,
+                        width: MySize.size147,
                       ),
-                    )
-                  ],
+                      RichText(
+                        text: TextSpan(
+                          text: 'Having Trouble? ',
+                          style: TextStyle(
+                              color: appTheme.textGrayColor,
+                              fontFamily: "Poppins"),
+                          // style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'Get Help ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Poppins",
+                                    color: appTheme.primaryTheme)),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Expanded(
                 child: Container(
-                  width: MySize.screenWidth,
+                  width: MySize.getScaledSizeWidth(1025),
+                  alignment: Alignment.center,
                   child: Theme(
                     data: ThemeData(
                         accentColor: appTheme.primaryTheme,
                         // primarySwatch: Colors.orange,
                         colorScheme:
                             ColorScheme.light(primary: appTheme.primaryTheme)),
-                    child: Stepper(
-                      steps: [
-                        Step(
-                          title: Text('Business Information'),
-                          content: Container(
-                            //width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Center(
+                      child: Stepper(
+                        steps: [
+                          Step(
+                            title: Text(
+                              'Business Information',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            content: Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Wrap(
+                                    runSpacing: MySize.getScaledSizeHeight(5),
+                                    children: [
+                                      Container(
+                                        width: MySize.getScaledSizeWidth(480),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            getStoreCategoriesField(),
+                                            Space.height(5),
+                                            getCategoryChips(),
+                                          ],
+                                        ),
+                                      ),
+                                      Space.width(30),
+                                      Container(
+                                        width: MySize.getScaledSizeWidth(480),
+                                        child: getTextFormField(
+                                          textEditingController: controller
+                                              .storeNameController.value,
+                                          labelText: "Store Name",
+                                          hintText: "Store Name",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  basicDetails(),
+                                  // Space.height(30),
+                                  Wrap(
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      storeGallery(context),
+                                      Space.width(30),
+                                      deliveryOption(),
+                                    ],
+                                  ),
+                                  gertStoreHours(),
+                                ],
+                              ),
+                            ),
+                            isActive: controller.currentStep >= 0,
+                            state: controller.currentStep >= 0
+                                ? StepState.complete
+                                : StepState.disabled,
+                          ),
+                          Step(
+                            title: new Text(
+                              'Merchant Information',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            content: Column(
                               children: <Widget>[
-                                Wrap(
-                                  runSpacing: MySize.getScaledSizeHeight(5),
-                                  children: [
-                                    Container(
-                                      width: MySize.getScaledSizeWidth(498),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          getStoreCategoriesField(),
-                                          Space.height(5),
-                                          getCategoryChips(),
-                                        ],
-                                      ),
-                                    ),
-                                    Space.width(30),
-                                    Container(
-                                      width: MySize.getScaledSizeWidth(498),
-                                      child: getTextFormField(
-                                        textEditingController: controller
-                                            .storeNameController.value,
-                                        labelText: "Store Name",
-                                        hintText: "Store Name",
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                basicDetails(),
-                                // Space.height(30),
-                                Wrap(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    storeGallery(context),
-                                    deliveryOption(),
-                                  ],
-                                ),
-                                gertStoreHours(),
+                                // TextFormField(
+                                //   decoration:
+                                //       InputDecoration(labelText: 'Home Address'),
+                                // ),
+                                // TextFormField(
+                                //   decoration:
+                                //       InputDecoration(labelText: 'Postcode'),
+                                // ),
                               ],
                             ),
+                            isActive: controller.currentStep.value >= 0,
+                            state: controller.currentStep.value >= 1
+                                ? StepState.complete
+                                : StepState.disabled,
                           ),
-                          isActive: controller.currentStep >= 0,
-                          state: controller.currentStep >= 0
-                              ? StepState.complete
-                              : StepState.disabled,
-                        ),
-                        Step(
-                          title: new Text('Merchant Information'),
-                          content: Column(
-                            children: <Widget>[
-                              // TextFormField(
-                              //   decoration:
-                              //       InputDecoration(labelText: 'Home Address'),
-                              // ),
-                              // TextFormField(
-                              //   decoration:
-                              //       InputDecoration(labelText: 'Postcode'),
-                              // ),
-                            ],
+                          Step(
+                            title: new Text(
+                              'Subscription Plan & Billing',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            content: Column(
+                              children: <Widget>[],
+                            ),
+                            isActive: controller.currentStep.value >= 0,
+                            state: controller.currentStep.value >= 2
+                                ? StepState.complete
+                                : StepState.disabled,
                           ),
-                          isActive: controller.currentStep.value >= 0,
-                          state: controller.currentStep.value >= 1
-                              ? StepState.complete
-                              : StepState.disabled,
-                        ),
-                        Step(
-                          title: new Text('Subscription Plan & Billing'),
-                          content: Column(
-                            children: <Widget>[],
+                          Step(
+                            title: new Text(
+                              'Store Information',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            content: Column(
+                              children: <Widget>[],
+                            ),
+                            isActive: controller.currentStep.value >= 0,
+                            state: controller.currentStep.value >= 3
+                                ? StepState.complete
+                                : StepState.disabled,
                           ),
-                          isActive: controller.currentStep.value >= 0,
-                          state: controller.currentStep.value >= 2
-                              ? StepState.complete
-                              : StepState.disabled,
-                        ),
-                        Step(
-                          title: new Text('Store Information'),
-                          content: Column(
-                            children: <Widget>[],
+                          Step(
+                            title: new Text(
+                              'Verification',
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            content: Column(
+                              children: <Widget>[],
+                            ),
+                            isActive: controller.currentStep.value >= 0,
+                            state: controller.currentStep.value >= 4
+                                ? StepState.complete
+                                : StepState.disabled,
                           ),
-                          isActive: controller.currentStep.value >= 0,
-                          state: controller.currentStep.value >= 3
-                              ? StepState.complete
-                              : StepState.disabled,
-                        ),
-                        Step(
-                          title: new Text('Verification'),
-                          content: Column(
-                            children: <Widget>[],
-                          ),
-                          isActive: controller.currentStep.value >= 0,
-                          state: controller.currentStep.value >= 4
-                              ? StepState.complete
-                              : StepState.disabled,
-                        ),
-                      ],
-                      physics: ScrollPhysics(),
-                      type: StepperType.horizontal,
-                      currentStep: controller.currentStep.value,
-                      onStepTapped: (val) {
-                        controller.currentStep.value = val;
-                      },
-                      elevation: 0,
-                      onStepContinue: () {
-                        controller.currentStep < 4
-                            ? controller.currentStep.value += 1
-                            : null;
-                      },
-                      onStepCancel: () {
-                        controller.currentStep > 0
-                            ? controller.currentStep.value -= 1
-                            : null;
-                      },
-                      margin: EdgeInsets.symmetric(vertical: MySize.size10!),
+                        ],
+                        physics: ScrollPhysics(),
+                        type: StepperType.horizontal,
+                        currentStep: controller.currentStep.value,
+                        onStepTapped: (val) {
+                          controller.currentStep.value = val;
+                        },
+                        elevation: 0,
+                        onStepContinue: () {
+                          controller.currentStep < 4
+                              ? controller.currentStep.value += 1
+                              : null;
+                        },
+                        onStepCancel: () {
+                          controller.currentStep > 0
+                              ? controller.currentStep.value -= 1
+                              : null;
+                        },
+                        margin: EdgeInsets.symmetric(vertical: MySize.size10!),
+                      ),
                     ),
                   ),
                 ),
@@ -204,7 +238,7 @@ class HomeView extends GetWidget<HomeController> {
         PopupMenuButton(
             offset: Offset(0, MySize.getScaledSizeHeight(50)),
             child: Container(
-              width: MySize.getScaledSizeWidth(498),
+              width: MySize.getScaledSizeWidth(480),
               child: getTextFormField(
                   textEditingController: controller.selectStoreCategories.value,
                   suffixIcon: Icon(Icons.arrow_drop_down),
@@ -219,7 +253,10 @@ class HomeView extends GetWidget<HomeController> {
               return List.generate(
                   10,
                   (index) => PopupMenuItem(
-                        child: Text("Category ${index + 1}"),
+                        child: Text(
+                          "Category ${index + 1}",
+                          style: TextStyle(fontFamily: "Poppins"),
+                        ),
                         onTap: () {
                           bool isAvailable = false;
                           controller.storeCategoriesList.forEach((element) {
@@ -320,36 +357,36 @@ class HomeView extends GetWidget<HomeController> {
           Wrap(
             children: [
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter Registered Business Address",
                     labelText: "Registered Business Address"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              Space.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter Office No",
                     labelText: "Office No, Building, Lane etc (optional) "),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              //Spacing.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child:
                     getTextFormField(hintText: "Enter City", labelText: "City"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              Space.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getStateDropDown(),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              // Spacing.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     textEditingController: controller.selectCountry.value,
                     suffixIcon: Icon(Icons.arrow_drop_down),
@@ -361,46 +398,46 @@ class HomeView extends GetWidget<HomeController> {
                     }),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              Space.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter PIN code ", labelText: "Store PIN code"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              //Spacing.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter Store License Number ",
                     labelText: "Store License Number "),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              Space.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter GST Number", labelText: "GST Number"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              //Spacing.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter Email", labelText: "Email"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              Space.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter Telephone Number",
                     labelText: "Telephone Number"),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
-              Spacing.width(28),
+              //  Spacing.width(28),
               Container(
-                width: MySize.getScaledSizeWidth(498),
+                width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
                     hintText: "Enter Store Map Location",
                     labelText: "Store Map Location",
@@ -421,7 +458,7 @@ class HomeView extends GetWidget<HomeController> {
     return PopupMenuButton(
         offset: Offset(0, MySize.getScaledSizeHeight(58)),
         child: Container(
-          width: MySize.getScaledSizeWidth(498),
+          width: MySize.getScaledSizeWidth(480),
           child: getTextFormField(
             textEditingController: controller.selectStateController.value,
             suffixIcon: Icon(Icons.arrow_drop_down),
@@ -434,7 +471,10 @@ class HomeView extends GetWidget<HomeController> {
           return List.generate(
               controller.stateList.length,
               (index) => PopupMenuItem(
-                    child: Text(controller.stateList[index]),
+                    child: Text(
+                      controller.stateList[index],
+                      style: TextStyle(fontFamily: "Poppins"),
+                    ),
                     onTap: () {
                       controller.selectStateController.value.text =
                           controller.stateList[index];
@@ -447,11 +487,12 @@ class HomeView extends GetWidget<HomeController> {
     return Padding(
       padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(30)),
       child: Container(
-        width: MySize.getScaledSizeWidth(520),
+        width: MySize.getScaledSizeWidth(480),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -612,8 +653,10 @@ class HomeView extends GetWidget<HomeController> {
 
   deliveryOption() {
     return Container(
-      width: MySize.getScaledSizeWidth(520),
-      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(30)),
+      width: MySize.getScaledSizeWidth(487),
+      padding: EdgeInsets.only(
+        top: MySize.getScaledSizeHeight(30),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -664,7 +707,8 @@ class HomeView extends GetWidget<HomeController> {
             ],
           ),
           Space.height(21),
-          Row(
+          Wrap(
+            runSpacing: MySize.getScaledSizeHeight(10),
             children: [
               Container(
                 width: MySize.getScaledSizeWidth(157),
@@ -723,7 +767,8 @@ class HomeView extends GetWidget<HomeController> {
                 fontWeight: FontWeight.bold),
           ),
           Space.height(30),
-          Row(
+          Wrap(
+            runSpacing: MySize.getScaledSizeHeight(10),
             children: [
               PopupMenuButton(
                   offset: Offset(0, MySize.getScaledSizeHeight(50)),
