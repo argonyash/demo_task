@@ -11,15 +11,20 @@ class HomeController extends GetxController {
   late TextEditingController username;
   Rx<TextEditingController> selectState = TextEditingController().obs;
   Rx<TextEditingController> selectCountry = TextEditingController().obs;
+  Rx<TextEditingController> selectStateController = TextEditingController().obs;
   Rx<TextEditingController> selectStoreCategories = TextEditingController().obs;
   Rx<TextEditingController> storeNameController = TextEditingController().obs;
   Rx<TextEditingController> coverageController = TextEditingController().obs;
+  Rx<TextEditingController> storeHoursController = TextEditingController().obs;
+  Rx<TextEditingController> openingTimeController = TextEditingController().obs;
   Rx<TextEditingController> deliverySpeedController =
       TextEditingController().obs;
   Rx<TextEditingController> deliverySpeedPopUpController =
       TextEditingController().obs;
   RxList<StoreCategoriesModel> storeCategoriesList =
       RxList<StoreCategoriesModel>([]);
+  RxList stateList =
+      ["Gujarat", "Kerala", "Rajasthan", "Punjab", "Chennai", "Goa"].obs;
   final count = 0.obs;
   RxBool isChecked = false.obs;
   ImagePicker imagePicker = ImagePicker();
@@ -33,7 +38,9 @@ class HomeController extends GetxController {
     super.onInit();
     username = TextEditingController();
     selectStoreCategories.value.text = "Select Store Category";
+    selectStateController.value.text = stateList[0];
     deliverySpeedPopUpController.value.text = "Select";
+    storeHoursController.value.text = "Mon - Sat";
   }
 
   @override

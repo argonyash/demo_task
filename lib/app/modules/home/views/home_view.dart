@@ -21,7 +21,7 @@ class HomeView extends GetWidget<HomeController> {
         return Container(
           height: MySize.screenHeight,
           width: MySize.screenWidth,
-          padding: EdgeInsets.symmetric(horizontal: MySize.size20!),
+          padding: EdgeInsets.symmetric(horizontal: MySize.size50!),
           child: Column(
             children: [
               Padding(
@@ -100,9 +100,17 @@ class HomeView extends GetWidget<HomeController> {
                                     ),
                                   ],
                                 ),
-                                deliveryOption(),
                                 basicDetails(),
-                                storeGallery(context),
+                                Space.height(30),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    storeGallery(context),
+                                    Spacer(),
+                                    deliveryOption(),
+                                  ],
+                                ),
+                                gertStoreHours(),
                               ],
                             ),
                           ),
@@ -319,15 +327,7 @@ class HomeView extends GetWidget<HomeController> {
             Spacing.width(28),
             Container(
               width: MySize.getScaledSizeWidth(498),
-              child: getTextFormField(
-                  textEditingController: controller.selectState.value,
-                  suffixIcon: Icon(Icons.arrow_drop_down),
-                  labelText: "State",
-                  isReadOnly: true,
-                  enable: false,
-                  ontap: () {
-                    print("test");
-                  }),
+              child: getStateDropDown(),
               margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
             ),
             Spacing.width(28),
@@ -388,7 +388,7 @@ class HomeView extends GetWidget<HomeController> {
                   hintText: "Enter Store Map Location",
                   labelText: "Store Map Location",
                   suffixIcon: Padding(
-                    padding: EdgeInsets.all(MySize.size8!),
+                    padding: EdgeInsets.all(MySize.size15!),
                     child: SvgPicture.asset("assets/pin.svg"),
                   )),
               margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
@@ -399,9 +399,35 @@ class HomeView extends GetWidget<HomeController> {
     );
   }
 
+  getStateDropDown() {
+    return PopupMenuButton(
+        offset: Offset(0, MySize.getScaledSizeHeight(58)),
+        child: Container(
+          width: MySize.getScaledSizeWidth(498),
+          child: getTextFormField(
+            textEditingController: controller.selectStateController.value,
+            suffixIcon: Icon(Icons.arrow_drop_down),
+            labelText: "State",
+            isReadOnly: true,
+            enable: false,
+          ),
+        ),
+        itemBuilder: (context) {
+          return List.generate(
+              controller.stateList.length,
+              (index) => PopupMenuItem(
+                    child: Text(controller.stateList[index]),
+                    onTap: () {
+                      controller.selectStateController.value.text =
+                          controller.stateList[index];
+                    },
+                  ));
+        });
+  }
+
   Widget storeGallery(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(20)),
+      padding: EdgeInsets.only(top: MySize.getScaledSizeHeight(0)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -570,11 +596,60 @@ class HomeView extends GetWidget<HomeController> {
                 ),
                 itemBuilder: (context) {
                   return List.generate(
-                      10,
+                      0,
                       (index) => PopupMenuItem(
                             child: Text("Category ${index + 1}"),
                           ));
                 }),
+          ],
+        ),
+      ],
+    );
+  }
+
+  gertStoreHours() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Store Hours",
+          style: TextStyle(
+              fontSize: MySize.getScaledSizeHeight(20),
+              fontWeight: FontWeight.bold),
+        ),
+        Space.height(30),
+        Row(
+          children: [
+            PopupMenuButton(
+                offset: Offset(0, MySize.getScaledSizeHeight(50)),
+                child: Container(
+                  width: MySize.getScaledSizeWidth(249),
+                  child: getTextFormField(
+                      textEditingController:
+                          controller.storeHoursController.value,
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      labelText: "Work Days",
+                      isReadOnly: true,
+                      enable: false,
+                      ontap: () {
+                        print("test");
+                      }),
+                ),
+                itemBuilder: (context) {
+                  return List.generate(
+                      0,
+                      (index) => PopupMenuItem(
+                            child: Text("Category ${index + 1}"),
+                          ));
+                }),
+            Space.width(10),
+            Container(
+              width: MySize.getScaledSizeWidth(249),
+              child: getTextFormField(
+                  labelText: "Opening Time",
+                  textEditingController:
+                      controller.openingTimeController.value),
+            ),
           ],
         ),
       ],
