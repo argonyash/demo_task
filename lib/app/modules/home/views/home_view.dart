@@ -63,31 +63,40 @@ class HomeView extends GetWidget<HomeController> {
                     child: Stepper(
                       steps: [
                         Step(
-                          title: new Text('Account'),
+                          title: Text('Account'),
                           content: Container(
                             //width: double.infinity,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Row(
+                                Wrap(
+                                  runSpacing: MySize.getScaledSizeHeight(5),
                                   children: [
                                     Container(
-                                      width: MySize.getScaledSizeWidth(400),
-                                      // child: getTextFormField(
-                                      //     labelText: "Store Categories",
-                                      //     hintText: "sdsd",
-                                      //     textEditingController:
-                                      //         controller.username,
-                                      //     enable: true),
-                                      child: TextField(
-                                        controller: controller.username,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: 'City',
-                                            hintText: 'Enter City Here'),
+                                      width: MySize.getScaledSizeWidth(498),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          getStoreCategoriesField(),
+                                          Space.height(5),
+                                          getCategoryChips(),
+                                        ],
+                                      ),
+                                    ),
+                                    Space.width(30),
+                                    Container(
+                                      width: MySize.getScaledSizeWidth(498),
+                                      child: getTextFormField(
+                                        textEditingController: controller
+                                            .storeNameController.value,
+                                        labelText: "Store Name",
+                                        hintText: "Store Name",
                                       ),
                                     ),
                                   ],
-                                )
+                                ),
+                                deliveryOption(),
                               ],
                             ),
                           ),
@@ -152,11 +161,190 @@ class HomeView extends GetWidget<HomeController> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
       }),
+    );
+  }
+
+  Row getStoreCategoriesField() {
+    return Row(
+      children: [
+        PopupMenuButton(
+            offset: Offset(0, MySize.getScaledSizeHeight(50)),
+            child: Container(
+              width: MySize.getScaledSizeWidth(498),
+              child: getTextFormField(
+                  textEditingController: controller.selectStoreCategories.value,
+                  suffixIcon: Icon(Icons.arrow_drop_down),
+                  labelText: "Store Categories",
+                  isReadOnly: true,
+                  enable: false,
+                  ontap: () {
+                    print("test");
+                  }),
+            ),
+            itemBuilder: (context) {
+              return List.generate(
+                  10,
+                  (index) => PopupMenuItem(
+                        child: Text("Category ${index + 1}"),
+                        onTap: () {
+                          bool isAvailable = false;
+                          controller.storeCategoriesList.forEach((element) {
+                            if (element.id == ((index + 1))) {
+                              isAvailable = true;
+                            }
+                          });
+                          if (!isAvailable) {
+                            controller.storeCategoriesList.add(
+                                StoreCategoriesModel(
+                                    category: "Category ${index + 1}",
+                                    id: (index + 1)));
+                          }
+                        },
+                      ));
+            }),
+      ],
+    );
+  }
+
+  getCategoryChips() {
+    return Wrap(
+      children: List.generate(controller.storeCategoriesList.length, (index) {
+        return Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(MySize.getScaledSizeHeight(20))),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.circular(MySize.getScaledSizeHeight(20))),
+            height: MySize.getScaledSizeHeight(35),
+            width: MySize.getScaledSizeWidth(78),
+            alignment: Alignment.center,
+            padding: Spacing.symmetric(horizontal: 10, vertical: 5),
+            child: Row(
+              children: [
+                Text(
+                  controller.storeCategoriesList[index].category.toString(),
+                  style: TextStyle(fontSize: MySize.getScaledSizeHeight(16)),
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    controller.storeCategoriesList.removeAt(index);
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: appTheme.primaryTheme,
+                    size: MySize.getScaledSizeHeight(15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  deliveryOption() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Delivery Options",
+          style: TextStyle(
+              fontSize: MySize.getScaledSizeHeight(20),
+              fontWeight: FontWeight.bold),
+        ),
+        Space.height(10),
+        Row(
+          children: [
+            Checkbox(
+                value: controller.isStorePickUp.value,
+                // checkColor: Color(0xff585B71),
+                // activeColor: Colors.white,
+                // side: BorderSide(
+                //   color: Color(0xff585B71),
+                // ),
+                // focusColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  // side: BorderSide(
+                  //   color: Color(0xff585B71),
+                  // ),
+                  borderRadius:
+                      BorderRadius.circular(MySize.getScaledSizeHeight(3)),
+                ),
+                onChanged: (val) {
+                  controller.isStorePickUp.value = val!;
+                }),
+            Text(
+              "Store Pick-up",
+              style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontSize: MySize.getScaledSizeHeight(16)),
+            ),
+            Checkbox(
+                value: controller.isHomeDelivery.value,
+                onChanged: (val) {
+                  controller.isHomeDelivery.value = val!;
+                }),
+            Text(
+              "Home Delivery",
+              style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontSize: MySize.getScaledSizeHeight(16)),
+            ),
+          ],
+        ),
+        Space.height(21),
+        Row(
+          children: [
+            Container(
+              width: MySize.getScaledSizeWidth(157),
+              child: getTextFormField(
+                  labelText: "Area Coverage",
+                  textEditingController: controller.coverageController.value),
+            ),
+            Space.width(10),
+            Container(
+              width: MySize.getScaledSizeWidth(157),
+              child: getTextFormField(
+                  labelText: "Delivery Speed",
+                  textEditingController:
+                      controller.deliverySpeedController.value),
+            ),
+            Space.width(10),
+            PopupMenuButton(
+                offset: Offset(0, MySize.getScaledSizeHeight(50)),
+                child: Container(
+                  width: MySize.getScaledSizeWidth(157),
+                  child: getTextFormField(
+                      textEditingController:
+                          controller.deliverySpeedPopUpController.value,
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      labelText: "Delivery Speed",
+                      isReadOnly: true,
+                      enable: false,
+                      ontap: () {
+                        print("test");
+                      }),
+                ),
+                itemBuilder: (context) {
+                  return List.generate(
+                      10,
+                      (index) => PopupMenuItem(
+                            child: Text("Category ${index + 1}"),
+                          ));
+                }),
+          ],
+        ),
+      ],
     );
   }
 }

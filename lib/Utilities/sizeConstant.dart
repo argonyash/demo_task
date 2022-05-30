@@ -291,13 +291,13 @@ class MySize {
     safeWidth = (screenWidth - _safeAreaWidth);
     safeHeight = (screenHeight - _safeAreaHeight);
 
-    scaleFactorHeight = (safeHeight! / MediaQuery.of(context).size.height);
+    scaleFactorHeight = (safeHeight! / 1360);
     if (scaleFactorHeight < 1) {
       double diff = (1 - scaleFactorHeight) * (1 - scaleFactorHeight);
       scaleFactorHeight += diff;
     }
 
-    scaleFactorWidth = (safeWidth! / MediaQuery.of(context).size.width);
+    scaleFactorWidth = (safeWidth! / 1360);
 
     if (scaleFactorWidth < 1) {
       double diff = (1 - scaleFactorWidth) * (1 - scaleFactorWidth);
