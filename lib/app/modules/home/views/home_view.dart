@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -60,9 +61,27 @@ class HomeView extends GetWidget<HomeController> {
                   ),
                 ),
               ),
+              Container(
+                width: MySize.getScaledSizeWidth(1025),
+                // height: MySize.getScaledSizeHeight(100),
+                // height: MySize.getScaledSizeHeight(110),
+                //color: Colors.red,
+
+                margin: EdgeInsets.only(top: MySize.getScaledSizeHeight(80)),
+                child: Center(
+                  child: Image(
+                    image: AssetImage("assets/stepper.png"),
+                    width: MySize.getScaledSizeWidth(1000),
+                    // height: MySize.getScaledSizeHeight(110),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              //Space.height(15),
               Expanded(
                 child: Container(
                   width: MySize.getScaledSizeWidth(1025),
+                  //  margin: EdgeInsets.only(top: MySize.getScaledSizeHeight(30)),
                   alignment: Alignment.center,
                   child: Theme(
                     data: ThemeData(
@@ -71,155 +90,69 @@ class HomeView extends GetWidget<HomeController> {
                         colorScheme:
                             ColorScheme.light(primary: appTheme.primaryTheme)),
                     child: Center(
-                      child: Stepper(
-                        steps: [
-                          Step(
-                            title: Text(
-                              'Business Information',
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                              ),
-                            ),
-                            content: Container(
-                              alignment: Alignment.center,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Wrap(
-                                    runSpacing: MySize.getScaledSizeHeight(5),
-                                    children: [
-                                      Container(
-                                        width: MySize.getScaledSizeWidth(480),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            getStoreCategoriesField(),
-                                            Space.height(5),
-                                            getCategoryChips(),
-                                          ],
-                                        ),
-                                      ),
-                                      Space.width(30),
-                                      Container(
-                                        width: MySize.getScaledSizeWidth(480),
-                                        child: getTextFormField(
-                                          textEditingController: controller
-                                              .storeNameController.value,
-                                          labelText: "Store Name",
-                                          hintText: "Store Name",
-                                        ),
-                                      ),
-                                    ],
+                      child: Container(
+                        padding:
+                            EdgeInsets.only(top: MySize.getScaledSizeHeight(0)),
+                        alignment: Alignment.center,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Space.height(30),
+                              Wrap(
+                                runSpacing: MySize.getScaledSizeHeight(5),
+                                spacing: MySize.getScaledSizeWidth(28),
+                                children: [
+                                  Container(
+                                    width: MySize.getScaledSizeWidth(480),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        getStoreCategoriesField(),
+                                        Space.height(10),
+                                        getCategoryChips(),
+                                      ],
+                                    ),
                                   ),
-                                  basicDetails(),
-                                  // Space.height(30),
-                                  Wrap(
-                                    // crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      storeGallery(context),
-                                      Space.width(30),
-                                      deliveryOption(),
-                                    ],
+                                  // Space.width(40),
+                                  Container(
+                                    width: MySize.getScaledSizeWidth(480),
+                                    child: getTextFormField(
+                                      textEditingController:
+                                          controller.storeNameController.value,
+                                      labelText: "Store Name",
+                                      hintText: "Store Name",
+                                    ),
                                   ),
-                                  gertStoreHours(),
                                 ],
                               ),
-                            ),
-                            isActive: controller.currentStep >= 0,
-                            state: controller.currentStep >= 0
-                                ? StepState.complete
-                                : StepState.disabled,
-                          ),
-                          Step(
-                            title: new Text(
-                              'Merchant Information',
-                              style: TextStyle(
-                                fontFamily: "Poppins",
+                              basicDetails(),
+                              // Space.height(30),
+                              Wrap(
+                                runSpacing: MySize.getScaledSizeHeight(5),
+                                spacing: MySize.getScaledSizeWidth(28),
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  storeGallery(context),
+                                  deliveryOption(),
+                                ],
                               ),
-                            ),
-                            content: Column(
-                              children: <Widget>[
-                                // TextFormField(
-                                //   decoration:
-                                //       InputDecoration(labelText: 'Home Address'),
-                                // ),
-                                // TextFormField(
-                                //   decoration:
-                                //       InputDecoration(labelText: 'Postcode'),
-                                // ),
-                              ],
-                            ),
-                            isActive: controller.currentStep.value >= 0,
-                            state: controller.currentStep.value >= 1
-                                ? StepState.complete
-                                : StepState.disabled,
-                          ),
-                          Step(
-                            title: new Text(
-                              'Subscription Plan & Billing',
-                              style: TextStyle(
-                                fontFamily: "Poppins",
+                              gertStoreHours(),
+                              Space.height(40),
+
+                              Center(
+                                child: Image(
+                                  image: AssetImage("assets/login.png"),
+                                  height: MySize.size50,
+                                  width: MySize.size50,
+                                ),
                               ),
-                            ),
-                            content: Column(
-                              children: <Widget>[],
-                            ),
-                            isActive: controller.currentStep.value >= 0,
-                            state: controller.currentStep.value >= 2
-                                ? StepState.complete
-                                : StepState.disabled,
+                              Space.height(80),
+                            ],
                           ),
-                          Step(
-                            title: new Text(
-                              'Store Information',
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                              ),
-                            ),
-                            content: Column(
-                              children: <Widget>[],
-                            ),
-                            isActive: controller.currentStep.value >= 0,
-                            state: controller.currentStep.value >= 3
-                                ? StepState.complete
-                                : StepState.disabled,
-                          ),
-                          Step(
-                            title: new Text(
-                              'Verification',
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                              ),
-                            ),
-                            content: Column(
-                              children: <Widget>[],
-                            ),
-                            isActive: controller.currentStep.value >= 0,
-                            state: controller.currentStep.value >= 4
-                                ? StepState.complete
-                                : StepState.disabled,
-                          ),
-                        ],
-                        physics: ScrollPhysics(),
-                        type: StepperType.horizontal,
-                        currentStep: controller.currentStep.value,
-                        onStepTapped: (val) {
-                          controller.currentStep.value = val;
-                        },
-                        elevation: 0,
-                        onStepContinue: () {
-                          controller.currentStep < 4
-                              ? controller.currentStep.value += 1
-                              : null;
-                        },
-                        onStepCancel: () {
-                          controller.currentStep > 0
-                              ? controller.currentStep.value -= 1
-                              : null;
-                        },
-                        margin: EdgeInsets.symmetric(vertical: MySize.size10!),
+                        ),
                       ),
                     ),
                   ),
@@ -356,7 +289,7 @@ class HomeView extends GetWidget<HomeController> {
           Spacing.height(33),
           Wrap(
             spacing: MySize.getScaledSizeWidth(28),
-            runSpacing: MySize.getScaledSizeHeight(5),
+            runSpacing: MySize.getScaledSizeHeight(10),
             children: [
               Container(
                 width: MySize.getScaledSizeWidth(480),
@@ -404,7 +337,9 @@ class HomeView extends GetWidget<HomeController> {
               Container(
                 width: MySize.getScaledSizeWidth(480),
                 child: getTextFormField(
-                    hintText: "Enter PIN code ", labelText: "Store PIN code"),
+                    hintText: "Enter PIN code ",
+                    labelText: "Store PIN code",
+                    formator: [FilteringTextInputFormatter.digitsOnly]),
                 margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(10)),
               ),
               //Spacing.width(28),
@@ -776,7 +711,7 @@ class HomeView extends GetWidget<HomeController> {
               PopupMenuButton(
                   offset: Offset(0, MySize.getScaledSizeHeight(50)),
                   child: Container(
-                    width: MySize.getScaledSizeWidth(249),
+                    width: MySize.getScaledSizeWidth(240),
                     child: getTextFormField(
                         textEditingController:
                             controller.storeHoursController.value,
@@ -797,7 +732,7 @@ class HomeView extends GetWidget<HomeController> {
                   }),
               Space.width(10),
               Container(
-                width: MySize.getScaledSizeWidth(249),
+                width: MySize.getScaledSizeWidth(240),
                 child: getTextFormField(
                     labelText: "Opening Time",
                     textEditingController:
