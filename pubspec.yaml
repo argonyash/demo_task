@@ -11,6 +11,7 @@ dependencies:
   flutter_svg:
   cached_network_image:
   image_cropper_for_web:
+  photo_view:
   image_picker:
   get: 4.6.5
   flutter: 

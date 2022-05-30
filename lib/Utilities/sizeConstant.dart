@@ -297,7 +297,7 @@ class MySize {
       scaleFactorHeight += diff;
     }
 
-    scaleFactorWidth = (safeWidth! / 1300);
+    scaleFactorWidth = (safeWidth! / 1360);
 
     if (scaleFactorWidth < 1) {
       double diff = (1 - scaleFactorWidth) * (1 - scaleFactorWidth);
