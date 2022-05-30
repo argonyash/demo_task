@@ -8,6 +8,7 @@ import 'package:image_cropper_for_web/image_cropper_for_web.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kriips_web/Utilities/color_constant.dart';
 import 'package:kriips_web/Utilities/text_field.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../../../../Utilities/sizeConstant.dart';
 import '../controllers/home_controller.dart';
@@ -275,7 +276,7 @@ class HomeView extends GetWidget<HomeController> {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
-            fontSize: MySize.size18,
+            fontSize: MySize.size20,
           ),
         ),
         Spacing.height(13),
@@ -294,7 +295,7 @@ class HomeView extends GetWidget<HomeController> {
               style: TextStyle(
                 color: appTheme.textGrayColor,
                 fontWeight: FontWeight.normal,
-                fontSize: MySize.size14,
+                fontSize: MySize.size18,
               ),
             ),
           ],
@@ -441,11 +442,11 @@ class HomeView extends GetWidget<HomeController> {
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
-                      fontSize: MySize.size18,
+                      fontSize: MySize.size20,
                     ),
                   ),
                   Spacing.height(20),
-                  Row(
+                  Wrap(
                     children: [
                       InkWell(
                         onTap: () async {
@@ -460,14 +461,88 @@ class HomeView extends GetWidget<HomeController> {
                           "assets/upload.svg",
                         ),
                       ),
+                      Spacing.width(10),
                       if (!isNullEmptyOrFalse(controller.imageData))
                         for (int i = 0; i < controller.imageData.length; i++)
-                          Image(
-                            image: NetworkImage(controller.imageData[i].path),
-                            width: MySize.getScaledSizeWidth(100),
-                            height: MySize.getScaledSizeHeight(100),
-                            fit: BoxFit.cover,
-                          )
+                          // for (int i = 0; i < 7; i++)
+                          Padding(
+                            padding: EdgeInsets.only(
+                                right: MySize.getScaledSizeWidth(10)),
+                            child: Container(
+                              height: MySize.getScaledSizeHeight(110),
+                              width: MySize.getScaledSizeWidth(110),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                    child: Image(
+                                      image: NetworkImage(
+                                          controller.imageData[0].path),
+                                      width: MySize.getScaledSizeWidth(100),
+                                      height: MySize.getScaledSizeHeight(100),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return SimpleDialog(
+                                            insetPadding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    MySize.getScaledSizeWidth(
+                                                        20)),
+                                            children: [
+                                              Container(
+                                                child: PhotoView(
+                                                  imageProvider: NetworkImage(
+                                                      controller
+                                                          .imageData[0].path),
+                                                  initialScale:
+                                                      PhotoViewComputedScale
+                                                              .contained *
+                                                          1,
+                                                  heroAttributes:
+                                                      PhotoViewHeroAttributes(
+                                                          tag: controller
+                                                              .imageData[0]
+                                                              .path),
+                                                  enableRotation: true,
+                                                ),
+                                                height:
+                                                    MySize.getScaledSizeHeight(
+                                                        600),
+                                                width:
+                                                    MySize.getScaledSizeHeight(
+                                                        600),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.imageData.removeAt(i);
+                                      },
+                                      child: Container(
+                                        height: MySize.getScaledSizeHeight(110),
+                                        width: MySize.getScaledSizeWidth(110),
+                                        child: Image(
+                                          image:
+                                              AssetImage("assets/cancel.png"),
+                                        ),
+                                      ),
+                                    ),
+                                    width: MySize.getScaledSizeWidth(40),
+                                    height: MySize.getScaledSizeHeight(40),
+                                    right: -9,
+                                    top: -9,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                     ],
                   )
                 ],
